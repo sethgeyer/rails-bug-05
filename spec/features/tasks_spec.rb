@@ -31,6 +31,18 @@ feature 'Tasks' do
     expect(page).to have_no_content("Some task")
     expect(page).to have_content("Updated task")
     expect(task.reload).to eq(task)
+
+    click_on "+ Add Task", match: :first
+    fill_in "Description", with: "AAAAThe Other Task"
+    click_on "Create Task"
+
+
+    first('.task').click_link('edit')
+    fill_in "Description", with: "BBBBThe Other Task"
+    click_on "Update Task"
+    expect(page).to have_content("Updated task")
+    expect(page).to have_content("BBBBThe Other Task")
+
   end
 
 end
